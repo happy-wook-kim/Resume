@@ -6,15 +6,24 @@ current_branch=$(git rev-parse --abbrev-ref HEAD)
 # 프로젝트 빌드
 pnpm run export
 
-# gh-pages 브랜치로 전환
-git checkout gh-pages
+# 임시 디렉토리 생성 및 빌드 파일 복사
+tmp_dir=$(mktemp -d)
+cp -R out/* $tmp_dir
+
+# gh-pages 브랜치로 전환 (없으면 생성)
+if git show-ref --quiet refs/heads/gh-pages; then
+    git checkout gh-pages
+else
+    git checkout --orphan gh-pages
+    git rm -rf .
+fi
 
 # 이전 빌드 파일 삭제
 git rm -rf .
 
-# out 디렉토리의 내용을 루트로 이동
-mv out/* .
-rm -rf out
+# 임시 디렉토리의 내용을 현재 디렉토리로 복사
+cp -R $tmp_dir/* .
+rm -rf $tmp_dir
 
 # .nojekyll 파일 생성
 touch .nojekyll
