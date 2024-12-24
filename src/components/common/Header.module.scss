@@ -1,0 +1,25 @@
+.header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  border: 1px solid;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.25rem 1rem;
+  ol {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    li {
+      a {
+        img[alt="icon"] {
+          width: 2.5rem;
+        }
+      }
+    }
+  }
+}
